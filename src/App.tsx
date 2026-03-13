@@ -60,81 +60,103 @@ const Navbar = () => {
     { name: 'Oferta', href: '#oferta' },
     { name: 'Rezerwacja', href: '#rezerwacja' },
     { name: 'Opinie', href: '#opinie' },
-    { name: 'Blog', href: '#blog' },
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-white/80 backdrop-blur-md border-b border-black/5 py-3' : 'bg-transparent py-6'
-    }`}>
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <a href="#" className="flex items-center">
-          <img 
-            src="https://tomaszmarkowski.pl/wp-content/uploads/2021/04/tomaszmarkowski.png" 
-            alt="Tomasz Markowski Logo" 
-            className="h-8 md:h-10 w-auto object-contain"
-            referrerPolicy="no-referrer"
-          />
-        </a>
-
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center space-x-8">
-          {navLinks.map((link) => (
-            <a 
-              key={link.name} 
-              href={link.href} 
-              className="text-sm font-medium text-neutral-600 hover:text-black transition-colors"
-            >
-              {link.name}
-            </a>
-          ))}
-          <a 
-            href="mailto:tmatma@poczta.onet.pl" 
-            className="bg-black text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-neutral-800 transition-all"
-          >
-            Kontakt
+    <>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-white/90 backdrop-blur-md border-b border-black/5 py-3' : 'bg-transparent py-6'
+      }`}>
+        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+          <a href="#" className="flex items-center">
+            <img 
+              src="https://tomaszmarkowski.pl/wp-content/uploads/2021/04/tomaszmarkowski.png" 
+              alt="Tomasz Markowski Logo" 
+              className="h-8 md:h-10 w-auto object-contain"
+              referrerPolicy="no-referrer"
+            />
           </a>
-        </div>
 
-        {/* Mobile Menu Toggle */}
-        <button 
-          className="md:hidden text-black"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {/* Mobile Nav */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 bg-white border-b border-black/5 p-6 md:hidden flex flex-col space-y-4 shadow-xl"
-          >
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
               <a 
                 key={link.name} 
                 href={link.href} 
-                className="text-lg font-medium text-neutral-800"
-                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-sm font-semibold text-neutral-600 hover:text-black transition-colors"
               >
                 {link.name}
               </a>
             ))}
             <a 
-              href="mailto:tmatma@poczta.onet.pl" 
-              className="bg-black text-white px-5 py-3 rounded-xl text-center font-medium"
-              onClick={() => setIsMobileMenuOpen(false)}
+              href="#rezerwacja" 
+              className="bg-black text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-neutral-800 transition-all shadow-lg shadow-black/10"
             >
-              Kontakt
+              Bezpłatna Konsultacja
             </a>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="md:hidden text-black p-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Menu"
+          >
+            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+
+        {/* Mobile Nav */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div 
+              initial={{ opacity: 0, x: '100%' }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: '100%' }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed inset-0 bg-white z-[60] p-8 md:hidden flex flex-col justify-center items-center space-y-8"
+            >
+              <button 
+                className="absolute top-6 right-6 text-black"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <X size={32} />
+              </button>
+              {navLinks.map((link) => (
+                <a 
+                  key={link.name} 
+                  href={link.href} 
+                  className="text-3xl font-bold text-neutral-900"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.name}
+                </a>
+              ))}
+              <a 
+                href="#rezerwacja" 
+                className="w-full bg-black text-white px-8 py-5 rounded-2xl text-center font-bold text-xl shadow-2xl"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Bezpłatna Konsultacja
+              </a>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+
+      {/* Mobile Sticky CTA */}
+      <div className="md:hidden fixed bottom-6 left-6 right-6 z-40">
+        <motion.a
+          initial={{ y: 100 }}
+          animate={{ y: 0 }}
+          href="#rezerwacja"
+          className="flex items-center justify-center gap-3 bg-black text-white py-4 px-6 rounded-2xl font-bold shadow-2xl shadow-black/30 border border-white/10"
+        >
+          <Calendar size={20} />
+          Zarezerwuj Konsultację
+        </motion.a>
+      </div>
+    </>
   );
 };
 
@@ -143,62 +165,89 @@ const Hero = () => {
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-[#FBFBFD]">
       <div className="max-w-7xl mx-auto px-6 w-full grid md:grid-cols-2 gap-12 items-center">
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <span className="inline-block px-4 py-1.5 mb-6 text-xs font-semibold tracking-widest uppercase bg-black text-white rounded-full">
-            Trener Biznesu & Lider
-          </span>
-          <h1 className="text-5xl md:text-7xl font-semibold tracking-tight text-neutral-900 leading-[1.1] mb-8">
-            Już czas odważnie <br />
-            <span className="text-neutral-400">sięgnąć po swoje.</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 text-[10px] font-bold tracking-[0.2em] uppercase bg-emerald-50 text-emerald-700 rounded-lg border border-emerald-100">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            Dostępne terminy na Marzec
+          </div>
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-neutral-900 leading-[1.05] mb-8">
+            Skuteczne Przywództwo <br />
+            <span className="text-neutral-400">w Świecie Zmian.</span>
           </h1>
           <p className="text-xl text-neutral-600 mb-10 max-w-lg leading-relaxed">
-            Pomagam ludziom odkrywać ich wyjątkowość i budować odwagę mówienia o tym światu. Wykorzystaj pełnię swoich możliwości.
+            Pomagam liderom i korporacjom przekuwać wyzwania w mierzalne wyniki biznesowe. 15 lat doświadczenia w rozwoju kompetencji menedżerskich.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <a 
-              href="mailto:tmatma@poczta.onet.pl"
-              className="group bg-black text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-neutral-800 transition-all flex items-center justify-center"
+              href="#rezerwacja"
+              className="group bg-black text-white px-10 py-5 rounded-2xl text-lg font-bold hover:bg-neutral-800 transition-all flex items-center justify-center shadow-xl shadow-black/10"
             >
-              Weź udział w warsztatach
+              Bezpłatna Konsultacja
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
             </a>
             <a 
-              href="#warsztaty"
-              className="px-8 py-4 rounded-full text-lg font-medium text-neutral-900 hover:bg-black/5 transition-all text-center"
+              href="#oferta"
+              className="px-10 py-5 rounded-2xl text-lg font-bold text-neutral-900 border border-neutral-200 hover:bg-white transition-all text-center"
             >
-              Dowiedz się więcej
+              Oferta dla Firm
             </a>
+          </div>
+          
+          <div className="mt-12 flex items-center gap-4">
+            <div className="flex -space-x-3">
+              {[1,2,3,4].map(i => (
+                <img 
+                  key={i}
+                  src={`https://i.pravatar.cc/100?img=${i+10}`} 
+                  alt="Client" 
+                  className="w-10 h-10 rounded-full border-2 border-white"
+                />
+              ))}
+            </div>
+            <p className="text-sm text-neutral-500 font-medium">
+              Dołączyło już <span className="text-black font-bold">500+ liderów</span> z topowych firm
+            </p>
           </div>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-          className="relative"
+          className="relative hidden md:block"
         >
-          <div className="aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl bg-neutral-200">
+          <div className="aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl bg-neutral-200">
             <img 
               src="https://tomaszmarkowski.pl/wp-content/uploads/2021/04/Tomasz-Markowski_sm-599x1024.jpg" 
               alt="Tomasz Markowski" 
-              className="w-full h-full object-cover object-top grayscale hover:grayscale-0 transition-all duration-700"
+              className="w-full h-full object-cover object-top grayscale hover:grayscale-0 transition-all duration-1000"
               referrerPolicy="no-referrer"
             />
           </div>
           {/* Floating elements for visual interest */}
-          <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl border border-black/5 hidden lg:block">
+          <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl shadow-2xl border border-black/5">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600">
+              <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600">
                 <TrendingUp size={24} />
               </div>
               <div>
-                <p className="text-xs text-neutral-500 font-medium uppercase tracking-wider">Skuteczność</p>
-                <p className="text-lg font-bold text-neutral-900">+50% wydajności</p>
+                <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-widest">ROI Programu</p>
+                <p className="text-xl font-bold text-neutral-900">+45% efektywności</p>
               </div>
             </div>
+          </div>
+          
+          <div className="absolute top-12 -right-6 bg-white p-5 rounded-2xl shadow-2xl border border-black/5 max-w-[200px]">
+            <div className="flex gap-1 mb-2">
+              {[1,2,3,4,5].map(i => <Zap key={i} size={12} fill="currentColor" className="text-yellow-400" />)}
+            </div>
+            <p className="text-xs font-medium text-neutral-600 leading-relaxed">
+              "Najlepsza inwestycja w mój zespół menedżerski w tym roku."
+            </p>
+            <p className="text-[10px] font-bold text-neutral-400 mt-2">— Dyrektor HR, TechCorp</p>
           </div>
         </motion.div>
       </div>
@@ -206,21 +255,41 @@ const Hero = () => {
   );
 };
 
+const TrustBar = () => {
+  const industries = ["Finanse", "IT & Tech", "Produkcja", "Retail", "Logistyka", "E-commerce"];
+  return (
+    <div className="py-12 bg-white border-y border-black/5 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        <p className="text-center text-[10px] font-bold uppercase tracking-[0.3em] text-neutral-400 mb-8">
+          Zaufali mi liderzy z branż
+        </p>
+        <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-40 grayscale">
+          {industries.map(industry => (
+            <span key={industry} className="text-xl md:text-2xl font-bold tracking-tighter text-neutral-900">
+              {industry}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ProblemSection = () => {
   const problems = [
     {
-      title: "Zbyt wiele prób kończyło się porażką",
-      desc: "Niepowodzenia uczą nas najwięcej. Kształtuje nas sposób, w jaki sobie z nimi poradzimy.",
+      title: "Zastój w rozwoju zespołu",
+      desc: "Twoi ludzie mają potencjał, ale brakuje im iskry i jasnego kierunku. Pomagam odblokować zaangażowanie i pasję do pracy.",
       icon: <Target className="text-neutral-400" size={32} />
     },
     {
-      title: "Wszyscy mówią CO robić, nikt nie mówi JAK",
-      desc: "Dostajemy gotowe recepty, ale brakuje nam efektów. Wspólnie wdrażamy rozwiązania, które działają.",
+      title: "Paraliż decyzyjny w VUCA",
+      desc: "Świat zmienia się zbyt szybko, a stare metody zawodzą. Wdrażamy zwinne przywództwo, które pozwala działać skutecznie pod presją.",
       icon: <Zap className="text-neutral-400" size={32} />
     },
     {
-      title: "Efekty Twoich działań mogą być lepsze",
-      desc: "Znasz narzędzia, ale nie wiesz która metoda będzie optymalna. Pomagam osiągnąć zamierzone rezultaty.",
+      title: "Brak mierzalnych wyników",
+      desc: "Szkolenia się odbywają, ale KPI stoją w miejscu. Moje warsztaty są nastawione na konkretny ROI i zmianę postaw biznesowych.",
       icon: <TrendingUp className="text-neutral-400" size={32} />
     }
   ];
@@ -229,15 +298,15 @@ const ProblemSection = () => {
     <section className="py-32 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="max-w-3xl mb-20">
-          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-neutral-900 mb-6">
-            Co Cię powstrzymywało przed pokazaniem, na co Cię stać?
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-neutral-900 mb-6">
+            Z jakimi wyzwaniami <br />mierzysz się jako lider?
           </h2>
-          <p className="text-xl text-neutral-500">
-            W ważnych sprawach naszego życia nie ma gotowych rozwiązań. Każdy z nas jest inny, ma inne zasoby oraz doświadczenia.
+          <p className="text-xl text-neutral-500 leading-relaxed">
+            W świecie korporacyjnym nie ma miejsca na teoretyczne rozważania. Potrzebujesz narzędzi, które działają "tu i teraz".
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-12">
+        <div className="grid md:grid-cols-3 gap-8">
           {problems.map((p, i) => (
             <motion.div 
               key={i}
@@ -245,12 +314,12 @@ const ProblemSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="p-8 rounded-3xl bg-neutral-50 border border-black/5 hover:border-black/20 transition-all group"
+              className="p-10 rounded-[2.5rem] bg-neutral-50 border border-black/5 hover:border-black/10 hover:bg-white hover:shadow-2xl transition-all duration-500 group"
             >
-              <div className="mb-6 group-hover:scale-110 transition-transform duration-300">
+              <div className="mb-8 group-hover:scale-110 transition-transform duration-300">
                 {p.icon}
               </div>
-              <h3 className="text-2xl font-semibold text-neutral-900 mb-4">{p.title}</h3>
+              <h3 className="text-2xl font-bold text-neutral-900 mb-4">{p.title}</h3>
               <p className="text-neutral-500 leading-relaxed">{p.desc}</p>
             </motion.div>
           ))}
@@ -436,19 +505,19 @@ const TestimonialsSection = () => {
 const WorkshopsSection = () => {
   const workshops = [
     {
-      title: "Myśl Pytaniami",
-      desc: "Nauczę Cię zadawać pytania, które zaangażują Twoich rozmówców w dialog i pomogą dotrzeć do motywów zakupu.",
-      tags: ["Komunikacja", "Sprzedaż", "Relacje"]
-    },
-    {
-      title: "Budowanie Efektywności Osobistej",
-      desc: "Nauczę Cię budować swoją efektywność w życiu, pracy i biznesie poprzez praktyczne narzędzia i psychologię.",
-      tags: ["Nawyki", "Czas", "Psychologia"]
-    },
-    {
       title: "Lider w świecie VUCA",
-      desc: "Zacznij świadomie rozwijać własny styl liderski responsywny do zmian. Zarządzanie AGILE i coaching.",
-      tags: ["Przywództwo", "Agile", "Zespół"]
+      desc: "Zacznij świadomie rozwijać własny styl liderski responsywny do zmian. Zarządzanie AGILE i coaching zespołowy.",
+      tags: ["Przywództwo", "Agile", "Zmiana"]
+    },
+    {
+      title: "Psychologia Efektywności",
+      desc: "Budowanie odporności psychicznej i wysokiej wydajności w zespołach rozproszonych i macierzowych.",
+      tags: ["Efektywność", "Psychologia", "HR"]
+    },
+    {
+      title: "Myśl Pytaniami (Model Ravena)",
+      desc: "Zaawansowane techniki komunikacji i wywierania wpływu oparte na psychologii poznawczej i modelu autorytetu.",
+      tags: ["Komunikacja", "Negocjacje", "Wpływ"]
     }
   ];
 
@@ -457,40 +526,40 @@ const WorkshopsSection = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
           <div className="max-w-2xl">
-            <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-neutral-900 mb-6">
-              Warsztaty, które pomogą Ci zmienić życie
+            <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-neutral-900 mb-6">
+              Programy rozwojowe <br />dla biznesu
             </h2>
-            <p className="text-xl text-neutral-500">
-              Wybierz ścieżkę rozwoju dopasowaną do Twoich aktualnych potrzeb.
+            <p className="text-xl text-neutral-500 leading-relaxed">
+              Wybierz ścieżkę rozwoju dopasowaną do strategicznych celów Twojej organizacji.
             </p>
           </div>
-          <a href="mailto:tmatma@poczta.onet.pl" className="text-black font-semibold flex items-center group">
-            Zobacz wszystkie programy
-            <ChevronRight className="ml-1 group-hover:translate-x-1 transition-transform" size={20} />
+          <a href="#rezerwacja" className="text-black font-bold flex items-center group text-lg">
+            Zobacz pełny katalog
+            <ChevronRight className="ml-1 group-hover:translate-x-1 transition-transform" size={24} />
           </a>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-12">
           {workshops.map((w, i) => (
             <div key={i} className="group cursor-pointer">
-              <div className="aspect-video rounded-[2rem] bg-neutral-100 mb-8 overflow-hidden relative">
+              <div className="aspect-[4/3] rounded-[3rem] bg-neutral-100 mb-8 overflow-hidden relative">
                 <img 
-                  src={`https://picsum.photos/seed/workshop${i}/800/600`} 
+                  src={`https://picsum.photos/seed/corp-workshop${i}/800/600`} 
                   alt={w.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 grayscale group-hover:grayscale-0"
                   referrerPolicy="no-referrer"
                 />
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors" />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors" />
               </div>
-              <div className="flex gap-2 mb-4">
+              <div className="flex gap-2 mb-6">
                 {w.tags.map(tag => (
-                  <span key={tag} className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 border border-neutral-200 px-2 py-1 rounded-md">
+                  <span key={tag} className="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400 border border-neutral-200 px-3 py-1.5 rounded-lg">
                     {tag}
                   </span>
                 ))}
               </div>
-              <h3 className="text-2xl font-semibold text-neutral-900 mb-4 group-hover:text-neutral-600 transition-colors">{w.title}</h3>
-              <p className="text-neutral-500 leading-relaxed">{w.desc}</p>
+              <h3 className="text-2xl font-bold text-neutral-900 mb-4 group-hover:text-neutral-600 transition-colors">{w.title}</h3>
+              <p className="text-neutral-500 leading-relaxed text-lg">{w.desc}</p>
             </div>
           ))}
         </div>
@@ -501,16 +570,14 @@ const WorkshopsSection = () => {
 
 const OfferSection = () => {
   const benefits = [
-    "Świadome rozwijanie własnego stylu liderskiego",
-    "Elastyczna komunikacja w świecie VUCA",
-    "Działanie strategiczne w oparciu o model Portera",
-    "Motywowanie bez niszczenia „ducha zespołu”",
-    "Zarządzanie strukturami macierzowymi i crossowymi",
-    "Zapobieganie dysfunkcjom pracy zespołowej",
-    "Budowanie autorytetu (model Bertrama Ravena)",
-    "Wdrażanie zwinnego zarządzania AGILE",
-    "Przewidywanie zjawisk „czarnych łabędzi”",
-    "Mentoring i coaching budujący zaangażowanie"
+    "Budowanie autorytetu liderskiego (Model Ravena)",
+    "Zarządzanie zmianą i odporność psychiczna zespołu",
+    "Skuteczna komunikacja w strukturach macierzowych",
+    "Wdrażanie kultury feedbacku i radykalnej szczerości",
+    "Zwinne zarządzanie projektami (Agile Leadership)",
+    "Przeciwdziałanie wypaleniu zawodowemu w zespole",
+    "Strategiczne planowanie i egzekucja celów (OKRs)",
+    "Mentoring budujący następców i talenty w firmie"
   ];
 
   return (
@@ -525,10 +592,10 @@ const OfferSection = () => {
             transition={{ duration: 0.8 }}
           >
             <span className="text-xs font-bold tracking-[0.2em] uppercase text-neutral-400 mb-6 block">
-              Program Rozwoju
+              Program Rozwoju Premium
             </span>
-            <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-neutral-900 mb-10">
-              Uzyskasz wyjątkowe <br />umiejętności
+            <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-neutral-900 mb-10">
+              Zainwestuj w kapitał <br />ludzki swojej firmy
             </h2>
             <div className="grid sm:grid-cols-1 gap-4">
               {benefits.map((benefit, i) => (
@@ -538,12 +605,12 @@ const OfferSection = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
-                  className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-black/[0.03] hover:border-black/[0.08] transition-all group"
+                  className="flex items-center gap-4 p-5 rounded-2xl bg-white border border-black/[0.03] hover:border-black/[0.1] hover:shadow-lg transition-all group"
                 >
-                  <div className="w-8 h-8 rounded-full bg-neutral-50 flex items-center justify-center text-black group-hover:bg-black group-hover:text-white transition-all">
-                    <CheckCircle2 size={16} />
+                  <div className="w-10 h-10 rounded-xl bg-neutral-50 flex items-center justify-center text-black group-hover:bg-black group-hover:text-white transition-all">
+                    <CheckCircle2 size={20} />
                   </div>
-                  <p className="text-neutral-600 font-medium text-sm md:text-base">
+                  <p className="text-neutral-700 font-bold text-sm md:text-base">
                     {benefit}
                   </p>
                 </motion.div>
@@ -552,102 +619,42 @@ const OfferSection = () => {
           </motion.div>
 
           {/* Right Column: Pricing Cards */}
-          <div className="grid sm:grid-cols-2 gap-8">
-            {/* Card 1: 10 Sesji */}
+          <div className="grid sm:grid-cols-1 gap-8">
+            {/* Card: Corporate */}
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              whileHover={{ y: -10 }}
-              className="relative bg-white rounded-[2.5rem] border border-black/5 shadow-sm p-10 flex flex-col items-center text-center transition-all"
+              className="relative bg-black text-white rounded-[3rem] shadow-2xl p-12 flex flex-col items-center text-center overflow-hidden"
             >
-              <div className="absolute top-6 right-8">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 bg-neutral-50 px-3 py-1 rounded-full border border-neutral-100">
-                  Bestseller
-                </span>
+              <div className="absolute top-0 right-0 p-12 opacity-10">
+                <Users size={200} />
               </div>
               
-              <div className="w-16 h-16 bg-neutral-50 rounded-2xl flex items-center justify-center text-black mb-8">
-                <Calendar size={32} />
+              <div className="w-20 h-20 bg-white/10 rounded-3xl flex items-center justify-center text-white mb-8 backdrop-blur-xl">
+                <Award size={40} />
               </div>
               
-              <h3 className="text-sm font-bold tracking-widest uppercase text-neutral-400 mb-4">Indywidualne</h3>
-              <div className="flex items-baseline mb-10">
-                <span className="text-5xl font-semibold text-neutral-900">99</span>
-                <span className="text-lg font-medium text-neutral-400 ml-2">PLN / sesja</span>
-              </div>
+              <h3 className="text-sm font-bold tracking-[0.3em] uppercase text-neutral-400 mb-4">Dla Korporacji</h3>
+              <h4 className="text-3xl md:text-4xl font-bold mb-8">Szyte na miarę <br />programy liderskie</h4>
               
-              <ul className="space-y-4 mb-12 text-sm text-neutral-500 w-full text-left">
-                <li className="flex items-center gap-2">
-                  <div className="w-1 h-1 rounded-full bg-neutral-300" />
-                  Zarządzanie 3.0 Agile
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-1 h-1 rounded-full bg-neutral-300" />
-                  Struktury Matrix
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-1 h-1 rounded-full bg-neutral-300" />
-                  Psychologia zmiany
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-1 h-1 rounded-full bg-neutral-300" />
-                  Komunikacja w zmianie
-                </li>
+              <p className="text-neutral-400 mb-10 max-w-sm leading-relaxed">
+                Kompleksowe wsparcie dla zarządów i kadry zarządzającej. Audyt kompetencji, warsztaty grupowe oraz mentoring 1:1.
+              </p>
+              
+              <ul className="grid grid-cols-2 gap-4 mb-12 text-left w-full text-sm text-neutral-300">
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-emerald-500" /> Raporty ROI</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-emerald-500" /> Audyt 360°</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-emerald-500" /> Sesje strategiczne</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-emerald-500" /> Wsparcie HR</li>
               </ul>
               
-              <button className="w-full bg-black text-white py-4 rounded-full font-semibold hover:bg-neutral-800 transition-all shadow-xl shadow-black/10">
-                Wybierz pakiet
-              </button>
-            </motion.div>
-
-            {/* Card 2: Szkolenie Zespołu */}
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              whileHover={{ y: -10 }}
-              className="relative bg-white rounded-[2.5rem] border border-black/5 shadow-sm p-10 flex flex-col items-center text-center transition-all"
-            >
-              <div className="absolute top-6 right-8">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-500 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
-                  Dla firm
-                </span>
-              </div>
-
-              <div className="w-16 h-16 bg-neutral-50 rounded-2xl flex items-center justify-center text-black mb-8">
-                <Users size={32} />
-              </div>
-
-              <h3 className="text-sm font-bold tracking-widest uppercase text-neutral-400 mb-4">Zespołowe</h3>
-              <div className="flex items-baseline mb-10">
-                <span className="text-5xl font-semibold text-neutral-900">99</span>
-                <span className="text-lg font-medium text-neutral-400 ml-2">PLN / os.</span>
-              </div>
-              
-              <ul className="space-y-4 mb-12 text-sm text-neutral-500 w-full text-left">
-                <li className="flex items-center gap-2">
-                  <div className="w-1 h-1 rounded-full bg-neutral-300" />
-                  Integracja zespołu
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-1 h-1 rounded-full bg-neutral-300" />
-                  Zwinne zarządzanie
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-1 h-1 rounded-full bg-neutral-300" />
-                  Budowanie autorytetu
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-1 h-1 rounded-full bg-neutral-300" />
-                  Warsztaty praktyczne
-                </li>
-              </ul>
-              
-              <button className="w-full bg-white text-black border border-black/10 py-4 rounded-full font-semibold hover:bg-black hover:text-white transition-all">
-                Zapytaj o ofertę
-              </button>
+              <a 
+                href="#rezerwacja"
+                className="w-full bg-white text-black py-5 rounded-2xl font-bold text-lg hover:bg-neutral-200 transition-all shadow-2xl shadow-white/5"
+              >
+                Zapytaj o ofertę B2B
+              </a>
             </motion.div>
           </div>
         </div>
@@ -775,12 +782,23 @@ const BookingSection = () => {
             <span className="text-xs font-bold tracking-[0.2em] uppercase text-neutral-400 mb-6 block">
               Zarezerwuj termin
             </span>
-            <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-neutral-900 mb-8">
+            <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-neutral-900 mb-8">
               Zrób pierwszy krok <br />ku zmianie
             </h2>
             <p className="text-lg text-neutral-500 mb-10 leading-relaxed max-w-md">
-              Wybierz dogodny termin na bezpłatną konsultację lub pierwszą sesję coachingową. Sprawdź moją dostępność w kalendarzu.
+              Wybierz dogodny termin na bezpłatną konsultację liderską. Sprawdź moją dostępność i zarezerwuj 15 minut, które mogą zmienić Twój styl zarządzania.
             </p>
+            
+            <div className="space-y-4 mb-10">
+              <div className="flex items-center gap-4 text-sm font-medium text-neutral-600">
+                <CheckCircle2 size={18} className="text-emerald-500" />
+                <span>Brak zobowiązań po rozmowie</span>
+              </div>
+              <div className="flex items-center gap-4 text-sm font-medium text-neutral-600">
+                <CheckCircle2 size={18} className="text-emerald-500" />
+                <span>Konkretne wskazówki "na start"</span>
+              </div>
+            </div>
             
             <div className="flex items-center gap-6 p-6 rounded-[2rem] bg-[#FBFBFD] border border-black/[0.03]">
               <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
@@ -887,60 +905,6 @@ const BookingSection = () => {
   );
 };
 
-const BlogSection = () => {
-  const articles = [
-    {
-      title: "5 przyczyn braku sukcesów i bogactwa",
-      date: "12 Mar 2024",
-      link: "#"
-    },
-    {
-      title: "Wartość z pytania CO?",
-      date: "05 Mar 2024",
-      link: "#"
-    },
-    {
-      title: "Czas – Jak poradzić sobie z zadaniami",
-      date: "28 Feb 2024",
-      link: "#"
-    }
-  ];
-
-  return (
-    <section id="blog" className="py-32 bg-[#FBFBFD]">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex justify-between items-center mb-16">
-          <h2 className="text-4xl font-semibold tracking-tight text-neutral-900">Wiedza i inspiracja</h2>
-          <a href="#" className="hidden md:flex items-center text-neutral-500 hover:text-black transition-colors">
-            Wszystkie artykuły <ChevronRight size={18} />
-          </a>
-        </div>
-
-        <div className="space-y-4">
-          {articles.map((a, i) => (
-            <a 
-              key={i} 
-              href={a.link}
-              className="flex flex-col md:flex-row md:items-center justify-between p-8 bg-white rounded-3xl border border-black/5 hover:shadow-md transition-all group"
-            >
-              <div className="flex items-center gap-6">
-                <span className="text-neutral-300 font-mono text-sm">0{i+1}</span>
-                <h3 className="text-xl font-semibold text-neutral-800 group-hover:text-black transition-colors">{a.title}</h3>
-              </div>
-              <div className="flex items-center gap-4 mt-4 md:mt-0">
-                <span className="text-sm text-neutral-400">{a.date}</span>
-                <div className="w-10 h-10 rounded-full border border-neutral-100 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all">
-                  <ArrowRight size={18} />
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
 const Footer = () => {
   return (
     <footer className="bg-white pt-32 pb-12 border-t border-black/5">
@@ -979,7 +943,6 @@ const Footer = () => {
               <li><a href="#oferta" className="hover:text-black transition-colors">Oferta</a></li>
               <li><a href="#rezerwacja" className="hover:text-black transition-colors">Rezerwacja</a></li>
               <li><a href="#opinie" className="hover:text-black transition-colors">Opinie</a></li>
-              <li><a href="#blog" className="hover:text-black transition-colors">Blog</a></li>
             </ul>
           </div>
 
@@ -1021,6 +984,7 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
+        <TrustBar />
         <ProblemSection />
         <WhyMeSection />
         <ProcessSection />
@@ -1028,7 +992,6 @@ export default function App() {
         <OfferSection />
         <BookingSection />
         <TestimonialsSection />
-        <BlogSection />
         
         {/* Final CTA Section */}
         <section className="py-32 bg-black text-white overflow-hidden relative">
@@ -1038,17 +1001,17 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-5xl md:text-7xl font-semibold tracking-tight mb-8">
-                Zrób krok <br />we właściwym kierunku.
+              <h2 className="text-5xl md:text-8xl font-bold tracking-tighter mb-8">
+                Gotowy na <br />wyższy poziom?
               </h2>
-              <p className="text-xl text-neutral-400 mb-12 max-w-2xl mx-auto">
-                Nie czekaj na zmiany, które same nie nadejdą – zainicjuj je. Zdecyduj, jak będzie wyglądać Twoje życie za rok.
+              <p className="text-xl text-neutral-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+                Nie czekaj na zmiany, które same nie nadejdą. Dołącz do grona liderów, którzy świadomie kształtują swoją przyszłość i wyniki swoich zespołów.
               </p>
               <a 
-                href="mailto:tmatma@poczta.onet.pl"
-                className="inline-flex items-center bg-white text-black px-10 py-5 rounded-full text-xl font-semibold hover:bg-neutral-200 transition-all"
+                href="#rezerwacja"
+                className="inline-flex items-center bg-white text-black px-12 py-6 rounded-2xl text-xl font-bold hover:bg-neutral-200 transition-all shadow-2xl shadow-white/10"
               >
-                Sięgnij po swoje
+                Umów bezpłatną konsultację
                 <ArrowRight className="ml-2" size={24} />
               </a>
             </motion.div>
